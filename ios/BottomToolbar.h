@@ -1,5 +1,5 @@
 #import <BottomToolbarSpec/BottomToolbarSpec.h>
 
-@interface BottomToolbar : NSObject <NativeBottomToolbarSpec>
+@interface BottomToolbar : NativeBottomToolbarSpecBase <NativeBottomToolbarSpec>
 
 @end

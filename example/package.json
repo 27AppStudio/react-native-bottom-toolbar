@@ -10,8 +10,12 @@
     "build:ios": "react-native build-ios --mode Debug"
   },
   "dependencies": {
+    "@react-navigation/native": "^7.5.1",
+    "@react-navigation/native-stack": "^7.21.0",
     "react": "19.2.3",
-    "react-native": "0.84.1"
+    "react-native": "0.84.1",
+    "react-native-safe-area-context": "~5.10.0",
+    "react-native-screens": "4.30.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

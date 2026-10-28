@@ -1,5 +1,5 @@
 {
-  "name": "react-native-bottom-toolbar",
+  "name": "@27appstudio/react-native-bottom-toolbar",
   "version": "0.1.0",
   "description": "Native bottom toolbar for React Native: UIKit's toolbar on iOS (Liquid Glass on iOS 26) and a Material 3 floating toolbar on Android.",
   "main": "./lib/module/index.js",
@@ -10,6 +10,11 @@
       "types": "./lib/typescript/src/index.d.ts",
       "default": "./lib/module/index.js"
     },
+    "./react-navigation": {
+      "react-native-bottom-toolbar-source": "./src/react-navigation/index.ts",
+      "types": "./lib/typescript/src/react-navigation/index.d.ts",
+      "default": "./lib/module/react-navigation/index.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -17,9 +22,7 @@
     "lib",
     "android",
     "ios",
-    "cpp",
     "*.podspec",
-    "react-native.config.js",
     "!ios/build",
     "!android/build",
     "!android/gradle",
@@ -41,7 +44,13 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "toolbar",
+    "liquid-glass",
+    "material3",
+    "fab",
+    "turbo-module",
+    "react-navigation"
   ],
   "repository": {
     "type": "git",
@@ -54,7 +63,8 @@
   },
   "homepage": "https://github.com/27AppStudio/react-native-bottom-toolbar#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
@@ -62,6 +72,8 @@
     "@eslint/js": "^9.39.5",
     "@react-native/babel-preset": "0.84.1",
     "@react-native/eslint-config": "0.84.1",
+    "@react-navigation/native": "^7.5.1",
+    "@react-navigation/native-stack": "^7.21.0",
     "@types/react": "^19.2.0",
     "del-cli": "^8.0.1",
     "eslint": "^9.39.5",
@@ -72,12 +84,16 @@
     "react": "19.2.3",
     "react-native": "0.84.1",
     "react-native-builder-bob": "^0.44.1",
+    "react-native-safe-area-context": "~5.10.0",
+    "react-native-screens": "4.30.0",
     "turbo": "^2.11.10",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
+    "@react-navigation/native": ">=7",
+    "@react-navigation/native-stack": ">=7",
     "react": "*",
-    "react-native": "*"
+    "react-native": ">=0.82"
   },
   "workspaces": [
     "example"
@@ -105,6 +121,11 @@
     "name": "BottomToolbarSpec",
     "type": "modules",
     "jsSrcsDir": "src",
+    "ios": {
+      "modulesProvider": {
+        "BottomToolbar": "BottomToolbar"
+      }
+    },
     "android": {
       "javaPackageName": "com.bottomtoolbar"
     }
@@ -116,12 +137,12 @@
     "trailingComma": "es5",
     "useTabs": false
   },
-  "create-react-native-library": {
-    "type": "turbo-module",
-    "languages": "kotlin-objc",
-    "tools": [
-      "eslint"
-    ],
-    "version": "0.64.0"
+  "peerDependenciesMeta": {
+    "@react-navigation/native": {
+      "optional": true
+    },
+    "@react-navigation/native-stack": {
+      "optional": true
+    }
   }
 }
