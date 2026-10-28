@@ -5,7 +5,10 @@ The platform's own bottom toolbar for React Native screens:
 - **iOS**: UIKit's navigation-controller toolbar, so you get what the system draws. On iOS 26 that's Liquid Glass (a lone item becomes a glass circle, like the bin in Photos), and earlier versions get the classic toolbar. Your app follows each iOS redesign without changes.
 - **Android**: Material 3 components. One button shows as a FAB; two or more show as the M3 Expressive floating toolbar. Both sit above the navigation bar.
 
-<!-- TODO: screenshots (iOS 26 / iOS 18 / Android) -->
+| | iOS 26 | iOS 18 | Android |
+|---|---|---|---|
+| Several items | <img src="docs/images/ios26-several.png" width="220" alt="iOS 26: a glass plus button on the left, pencil and share grouped in a glass capsule on the right"> | <img src="docs/images/ios18-several.png" width="220" alt="iOS 18: plus on the left, pencil and share on the right of the classic toolbar"> | <img src="docs/images/android-several.png" width="220" alt="Android: plus, pencil and share in a Material 3 floating toolbar"> |
+| One item, red `tintColor` | <img src="docs/images/ios26-single.png" width="220" alt="iOS 26: a red bin in a glass circle"> | <img src="docs/images/ios18-single.png" width="220" alt="iOS 18: a red bin at the trailing edge of the toolbar"> | <img src="docs/images/android-single.png" width="220" alt="Android: a Material 3 FAB with a red bin icon"> |
 
 It's a TurboModule with no views of its own in JS, no Expo modules, and no config plugin.
 
