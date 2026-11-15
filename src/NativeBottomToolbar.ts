@@ -24,6 +24,11 @@ type NativeToolbarOptions = {
 };
 
 export interface Spec extends TurboModule {
+  /**
+   * The room the toolbar takes at the bottom, in points: above the bottom safe area on
+   * iOS, above the navigation bar on Android. Its size when shown, even while hidden.
+   */
+  getHeight(): Promise<number>;
   hide(): void;
   readonly onItemPress: CodegenTypes.EventEmitter<string>;
   show(items: NativeToolbarItem[], options: NativeToolbarOptions): void;

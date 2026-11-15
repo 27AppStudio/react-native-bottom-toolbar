@@ -1,6 +1,7 @@
 import type { ToolbarButton, ToolbarItem, ToolbarOptions } from './types';
 
-import { processColor } from 'react-native';
+import { useEffect, useState } from 'react';
+import { processColor, useWindowDimensions } from 'react-native';
 
 import NativeBottomToolbar from './NativeBottomToolbar';
 
@@ -54,12 +55,62 @@ export function show(items: ToolbarItem[], options: ToolbarOptions = {}) {
     ),
     typeof tintColor === 'number' ? { tintColor } : {}
   );
+  // Once the bar has slid in (and any push has landed), its band is final.
+  setTimeout(refreshHeight, SETTLE_MS);
 }
+
+/** Longer than UIKit's toolbar and push animations. */
+const SETTLE_MS = 600;
 
 /** Hides the toolbar. */
 export function hide() {
   buttons = [];
   NativeBottomToolbar?.hide();
+}
+
+/**
+ * The room the toolbar takes at the bottom of the screen, in points: on iOS the
+ * band it adds over the content above the bottom safe area (so not the home
+ * indicator; 0 where the bar doesn't sit under the content, e.g. a foldable's side
+ * column), on Android above the navigation bar. While hidden, the size it last
+ * took, so a list can keep that much room under its last row without jumping when
+ * the toolbar comes and goes. 0 without the native module.
+ */
+export function getHeight(): Promise<number> {
+  return NativeBottomToolbar?.getHeight() ?? Promise.resolve(0);
+}
+
+let lastHeight = 0;
+const heightListeners = new Set<(height: number) => void>();
+
+/** Measures the band again and tells `useBottomToolbarHeight` users if it changed. */
+function refreshHeight() {
+  getHeight().then((height) => {
+    if (height !== lastHeight) {
+      lastHeight = height;
+      heightListeners.forEach((listener) => listener(height));
+    }
+  });
+}
+
+/**
+ * `getHeight`, kept up to date: measured again once a `show` has settled (the band
+ * is only exact once the bar is on screen) and when the window changes size (a
+ * rotation, a foldable opening). 0 until the first answer.
+ */
+export function useBottomToolbarHeight(): number {
+  const [height, setHeight] = useState(lastHeight);
+  const { height: windowHeight, width: windowWidth } = useWindowDimensions();
+  useEffect(() => {
+    heightListeners.add(setHeight);
+    return () => {
+      heightListeners.delete(setHeight);
+    };
+  }, []);
+  useEffect(() => {
+    refreshHeight();
+  }, [windowHeight, windowWidth]);
+  return height;
 }
 
 /**

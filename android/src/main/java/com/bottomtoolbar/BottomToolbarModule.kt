@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import java.lang.ref.WeakReference
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
@@ -67,6 +68,23 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
       // sit above the navigation bar.
       ViewCompat.requestApplyInsets(view)
       shown = WeakReference(view)
+    }
+  }
+
+  /**
+   * The room at the bottom, in dp, above the navigation bar: the shown view's height
+   * plus its margin, else a FAB's (the Material 3 size), which a one-button `show` adds.
+   */
+  override fun getHeight(promise: Promise) {
+    UiThreadUtil.runOnUiThread {
+      val view = shown?.get()
+      val density = reactApplicationContext.resources.displayMetrics.density
+      val height = if (view != null && view.height > 0) {
+        view.height / density + MARGIN_DP
+      } else {
+        FAB_SIZE_DP + MARGIN_DP
+      }
+      promise.resolve(height.toDouble())
     }
   }
 
@@ -191,5 +209,7 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
     private const val EXIT_DURATION = 200L
     private const val ENTER_OFFSET_DP = 24f
     private const val MARGIN_DP = 16f
+    // Material 3's regular FAB.
+    private const val FAB_SIZE_DP = 56f
   }
 }

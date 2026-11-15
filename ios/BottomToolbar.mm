@@ -12,6 +12,8 @@
  * hides it on leave.
  */
 @implementation BottomToolbar {
+  /** The band last measured while the bar was shown, in points. */
+  NSNumber *_measuredHeight;
   __weak UIViewController *_owner;
   /** The navigation bar's tint, as last read undimmed. */
   UIColor *_barTint;
@@ -135,6 +137,32 @@ static UINavigationController *VisibleNavigationController(void)
   } else {
     apply();
   }
+}
+
+- (void)getHeight:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UINavigationController *navigation =
+        self->_owner.navigationController ?: VisibleNavigationController();
+    UIToolbar *toolbar = navigation.toolbar;
+    UIView *top = navigation.topViewController.viewIfLoaded;
+    if (toolbar == nil || top == nil) {
+      resolve(self->_measuredHeight ?: @0);
+      return;
+    }
+    if (!navigation.toolbarHidden) {
+      // UIKit adds the bar's band to the screen's bottom safe area: measured there, as
+      // the bar's own frame is the whole screen on iOS 26 (it floats inside it). 0 where
+      // the bar doesn't sit under the content, e.g. a foldable's side column.
+      CGFloat band = top.safeAreaInsets.bottom - navigation.view.safeAreaInsets.bottom;
+      self->_measuredHeight = @(MAX(0, band));
+      resolve(self->_measuredHeight);
+      return;
+    }
+    // Hidden: the band last measured, else the bar's own height (without iOS 26's gap
+    // under it, which only shows once the bar does).
+    resolve(self->_measuredHeight ?: @([toolbar sizeThatFits:navigation.view.bounds.size].height));
+  });
 }
 
 - (void)hide
