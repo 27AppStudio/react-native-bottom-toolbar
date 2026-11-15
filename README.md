@@ -124,7 +124,7 @@ The room the toolbar takes at the bottom, in points, to keep a list's last row c
 ```tsx
 const toolbarHeight = useBottomToolbarHeight();
 // ...
-<FlatList ListFooterComponent={<View style={{ height: toolbarHeight }} />} />
+<FlatList ListFooterComponent={<View style={{ height: toolbarHeight }} />} />;
 ```
 
 ### `hide()`
