@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.2.0](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.1.2...v0.2.0) (2026-11-15)
+
+### Features
+
+* update the toolbar when items change on screen ([c8e562c](https://github.com/27AppStudio/react-native-bottom-toolbar/commit/c8e562c43a0d59f4efae98a59f009329a225e8f0))
+
 ## [0.1.2](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.1.1...v0.1.2) (2026-11-15)
 
 ## [0.1.1](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.1.0...v0.1.1) (2026-11-15)
