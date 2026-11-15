@@ -5,10 +5,10 @@ The platform's own bottom toolbar for React Native screens:
 - **iOS**: UIKit's navigation-controller toolbar, so you get what the system draws. On iOS 26 that's Liquid Glass (a lone item becomes a glass circle, like the bin in Photos), and earlier versions get the classic toolbar. Your app follows each iOS redesign without changes.
 - **Android**: Material 3 components. One button shows as a FAB; two or more show as the M3 Expressive floating toolbar. Both sit above the navigation bar.
 
-| | iOS 26 | iOS 18 | Android |
-|---|---|---|---|
-| Several items | <img src="docs/images/ios26-several.png" width="220" alt="iOS 26: a glass plus button on the left, pencil and share grouped in a glass capsule on the right"> | <img src="docs/images/ios18-several.png" width="220" alt="iOS 18: plus on the left, pencil and share on the right of the classic toolbar"> | <img src="docs/images/android-several.png" width="220" alt="Android: plus, pencil and share in a Material 3 floating toolbar"> |
-| One item, red `tintColor` | <img src="docs/images/ios26-single.png" width="220" alt="iOS 26: a red bin in a glass circle"> | <img src="docs/images/ios18-single.png" width="220" alt="iOS 18: a red bin at the trailing edge of the toolbar"> | <img src="docs/images/android-single.png" width="220" alt="Android: a Material 3 FAB with a red bin icon"> |
+|                           | iOS 26                                                                                                                                                        | iOS 18                                                                                                                                     | Android                                                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| Several items             | <img src="docs/images/ios26-several.png" width="220" alt="iOS 26: a glass plus button on the left, pencil and share grouped in a glass capsule on the right"> | <img src="docs/images/ios18-several.png" width="220" alt="iOS 18: plus on the left, pencil and share on the right of the classic toolbar"> | <img src="docs/images/android-several.png" width="220" alt="Android: plus, pencil and share in a Material 3 floating toolbar"> |
+| One item, red `tintColor` | <img src="docs/images/ios26-single.png" width="220" alt="iOS 26: a red bin in a glass circle">                                                                | <img src="docs/images/ios18-single.png" width="220" alt="iOS 18: a red bin at the trailing edge of the toolbar">                           | <img src="docs/images/android-single.png" width="220" alt="Android: a Material 3 FAB with a red bin icon">                     |
 
 It's a TurboModule with no views of its own in JS, no Expo modules, and no config plugin.
 
@@ -42,7 +42,9 @@ Requirements:
 ```tsx
 import { useBottomToolbar } from '@27appstudio/react-native-bottom-toolbar/react-navigation';
 
-function ExpenseScreen({ navigation }: NativeStackScreenProps<Params, 'Expense'>) {
+function ExpenseScreen({
+  navigation,
+}: NativeStackScreenProps<Params, 'Expense'>) {
   useBottomToolbar(navigation, [
     {
       id: 'delete',
@@ -67,7 +69,12 @@ show(
   [
     { id: 'add', systemImage: 'plus', androidIcon: 'ic_add', onPress: add },
     { type: 'flexibleSpace' },
-    { id: 'share', systemImage: 'square.and.arrow.up', androidIcon: 'ic_share', onPress: share },
+    {
+      id: 'share',
+      systemImage: 'square.and.arrow.up',
+      androidIcon: 'ic_share',
+      onPress: share,
+    },
   ],
   { tintColor: '#0A7D6E' }
 );
@@ -83,13 +90,13 @@ On iOS, `show` targets the visible navigation controller's top screen, and waits
 
 Replaces the items of any toolbar already shown.
 
-| Item | Fields |
-|---|---|
-| Button (default) | `id` (required), `onPress`, `systemImage` (iOS SF Symbol), `androidIcon` (drawable name), `title` (used when there's no icon), `accessibilityLabel` (defaults to `title`), `disabled` |
-| `{ type: 'flexibleSpace' }` | iOS: pushes the items apart. Android: ignored. |
-| `{ type: 'fixedSpace', width? }` | iOS: a fixed gap; on iOS 26 it also splits glass groups. Android: ignored. |
+| Item                             | Fields                                                                                                                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Button (default)                 | `id` (required), `onPress`, `systemImage` (iOS SF Symbol), `androidIcon` (drawable name), `title` (used when there's no icon), `accessibilityLabel` (defaults to `title`), `disabled` |
+| `{ type: 'flexibleSpace' }`      | iOS: pushes the items apart. Android: ignored.                                                                                                                                        |
+| `{ type: 'fixedSpace', width? }` | iOS: a fixed gap; on iOS 26 it also splits glass groups. Android: ignored.                                                                                                            |
 
-When `items` contains no space, iOS puts the buttons at the trailing edge.
+When `items` contains no space, iOS puts the buttons at the trailing edge. When it contains no button at all (`[]` or spacers only), `show` hides the toolbar, as `hide()` does, so a screen can pass an empty array while it has nothing to offer.
 
 `options.tintColor` sets the icon and title color. iOS defaults to the navigation bar's tint (matching the header buttons); Android defaults to the Material 3 theme.
 

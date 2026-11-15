@@ -26,9 +26,17 @@ let buttons: ToolbarButton[] = [];
  *   on top.
  * - Android: a Material 3 FAB for one button, a floating toolbar for more,
  *   above the navigation bar. Spacers are ignored.
+ *
+ * Without any button (an empty array, or spacers only) it hides the toolbar, as
+ * `hide` does: on iOS an empty bar would still take the bottom band's touches and
+ * add its height to the scroll views' insets.
  */
 export function show(items: ToolbarItem[], options: ToolbarOptions = {}) {
   if (!NativeBottomToolbar) {
+    return;
+  }
+  if (!items.some(isButton)) {
+    hide();
     return;
   }
   buttons = items.filter(isButton);
