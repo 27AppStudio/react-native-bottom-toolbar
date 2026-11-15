@@ -112,6 +112,21 @@ When `items` contains no space, iOS puts the buttons at the trailing edge. When 
 
 `options.tintColor` sets the icon and title color. iOS defaults to the navigation bar's tint (matching the header buttons); Android defaults to the Material 3 theme.
 
+### `getHeight(): Promise<number>` and `useBottomToolbarHeight(): number`
+
+The room the toolbar takes at the bottom, in points, to keep a list's last row clear of it (its touches take the whole band, not just the buttons):
+
+- iOS: the band the bar adds over the content above the bottom safe area, measured from the screen's safe area (iOS 26 floats the bar inside a full-screen frame, so the bar's own frame says nothing). 0 where the bar doesn't sit under the content, such as a foldable's side column. While hidden, the band last measured, else the bar's own height.
+- Android: the floating button or toolbar's height plus its margin, above the navigation bar.
+
+`useBottomToolbarHeight()` keeps it up to date: it measures again once a `show` has settled and when the window changes size (rotation, a foldable opening). It reads 0 until the first answer.
+
+```tsx
+const toolbarHeight = useBottomToolbarHeight();
+// ...
+<FlatList ListFooterComponent={<View style={{ height: toolbarHeight }} />} />;
+```
+
 ### `hide()`
 
 ### `addPressListener(listener: (id: string) => void): () => void`
