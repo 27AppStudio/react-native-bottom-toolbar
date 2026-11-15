@@ -70,7 +70,7 @@ function ExpenseScreen({
 }
 ```
 
-The hook shows the toolbar once the push has landed (or right away on the stack's first screen), hides it when the screen loses focus, and brings it back when a modal over the screen closes.
+The hook shows the toolbar once the push has landed (or right away on the stack's first screen), hides it when the screen loses focus, and brings it back when a modal over the screen closes. New `items` or `options` update a toolbar already on screen, and an empty array hides it, so memoize them (`useMemo`) rather than building a new array on every render.
 
 ### Without React Navigation
 
@@ -124,7 +124,7 @@ Called for every button tap, in addition to that button's own `onPress`.
 
 ### `useBottomToolbar(navigation, items, options?)`
 
-Imported from `/react-navigation`. `items` and `options` are read each time the toolbar is shown, so passing a new array doesn't resubscribe. To change a toolbar that's already on screen, call `show` again.
+Imported from `/react-navigation`. New `items` or `options` update the toolbar while the screen is on top (an empty array hides it); they never resubscribe the navigation listeners. Memoize them, or every render sends them to the native side again.
 
 ## Platform notes
 
