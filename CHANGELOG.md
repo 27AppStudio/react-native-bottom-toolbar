@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.3.0](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.2.0...v0.3.0) (2026-11-15)
+
+### Features
+
+* report the toolbar's height ([ba5a1a2](https://github.com/27AppStudio/react-native-bottom-toolbar/commit/ba5a1a2fa1bfa5fdedf9d06878ce5e5f12345ea4))
+
 # [0.2.0](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.1.2...v0.2.0) (2026-11-15)
 
 ### Features
