@@ -1,5 +1,5 @@
 PODS:
-  - BottomToolbar (0.1.0):
+  - BottomToolbar (0.3.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2160,7 +2160,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  BottomToolbar: 19b59d76991ca7c9acaa1533b5f47846e36ea230
+  BottomToolbar: 2d4d4cbe1fba8fc3dbaed3c76cba62b5d574877b
   FBLazyVector: e97c19a5a442429d1988f182a1940fb08df514da
   hermes-engine: 57fe86471a39852ee9b559dd6c1b4da0cd23c35b
   RCTDeprecation: af44b104091a34482596cd9bd7e8d90c4e9b4bd7

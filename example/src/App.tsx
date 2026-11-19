@@ -1,13 +1,31 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text } from 'react-native';
+import {
+  Button,
+  LogBox,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+} from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useBottomToolbar } from '@27appstudio/react-native-bottom-toolbar/react-navigation';
+import {
+  Editor,
+  type ShowcaseParams,
+  TINTS,
+  Viewer,
+  ViewerTitle,
+} from './Showcase';
 
-type StackParamList = {
+type StackParamList = ShowcaseParams & {
   Detail: { title: string };
   Home: undefined;
   Modal: undefined;
@@ -55,6 +73,23 @@ function Home({ navigation }: NativeStackScreenProps<StackParamList, 'Home'>) {
       <Button
         title="Open a modal"
         onPress={() => navigation.navigate('Modal')}
+      />
+      {/* The README screenshots, see scripts/screenshots. */}
+      <Button
+        title="Showcase: viewer"
+        testID="showcase-viewer"
+        onPress={() => {
+          LogBox.ignoreAllLogs();
+          navigation.push('Viewer');
+        }}
+      />
+      <Button
+        title="Showcase: editor"
+        testID="showcase-editor"
+        onPress={() => {
+          LogBox.ignoreAllLogs();
+          navigation.push('Editor');
+        }}
       />
     </ScrollView>
   );
@@ -110,8 +145,9 @@ function Modal({
 }
 
 export default function App() {
+  const dark = useColorScheme() === 'dark';
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={dark ? DarkTheme : DefaultTheme}>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
@@ -122,6 +158,28 @@ export default function App() {
           name="Detail"
           component={Detail}
           options={({ route }) => ({ title: route.params.title })}
+        />
+        <Stack.Screen
+          name="Viewer"
+          component={Viewer}
+          options={{
+            headerBackTitle: 'Library',
+            headerTintColor: '#FFFFFF',
+            headerTitle: ViewerTitle,
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="Editor"
+          component={Editor}
+          options={({ theme }) => ({
+            headerBackTitle: 'Notes',
+            headerShadowVisible: false,
+            // The screen's own background, so the header doesn't stand out as a bar.
+            headerStyle: { backgroundColor: theme.colors.background },
+            headerTintColor: TINTS.editor[theme.dark ? 'dark' : 'light'],
+            title: '',
+          })}
         />
         <Stack.Screen
           name="Modal"
