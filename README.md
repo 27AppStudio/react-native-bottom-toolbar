@@ -105,7 +105,7 @@ Replaces the items of any toolbar already shown.
 
 When `items` contains no space, iOS puts the buttons at the trailing edge. When it contains no button at all (`[]` or spacers only), `show` hides the toolbar, as `hide()` does, so a screen can pass an empty array while it has nothing to offer.
 
-`options.tintColor` sets the icon and title color. iOS defaults to the navigation bar's tint (matching the header buttons); Android defaults to the Material 3 theme.
+`options.tintColor` sets the icon and title color. On Android the button or toolbar then sits on a neutral container, so the tint is its only color: the theme's surface container in a Material 3 app, else white (dark grey in dark mode). iOS defaults to the navigation bar's tint (matching the header buttons); Android defaults to the Material 3 theme.
 
 ### `getHeight(): Promise<number>` and `useBottomToolbarHeight(): number`
 
