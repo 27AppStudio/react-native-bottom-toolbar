@@ -1,5 +1,11 @@
 # Changelog
 
+# [0.4.0](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.3.0...v0.4.0) (2026-11-19)
+
+### Features
+
+* **android:** put a custom tint on a neutral container ([7bdacec](https://github.com/27AppStudio/react-native-bottom-toolbar/commit/7bdacec46ed1d03c1a4f7b6eabf337c05ea57d2e))
+
 # [0.3.0](https://github.com/27AppStudio/react-native-bottom-toolbar/compare/v0.2.0...v0.3.0) (2026-11-15)
 
 ### Features
