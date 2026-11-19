@@ -3,6 +3,8 @@ package com.bottomtoolbar
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -23,6 +25,7 @@ import com.facebook.react.bridge.UiThreadUtil
 import com.facebook.react.uimanager.PixelUtil.dpToPx
 import com.facebook.react.views.imagehelper.ResourceDrawableIdHelper
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.floatingtoolbar.FloatingToolbarLayout
 import com.google.android.material.R as MaterialR
@@ -131,7 +134,10 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
     return FloatingActionButton(context).apply {
       icon(context, item)?.let { setImageResource(it) }
         ?: Log.w(TAG, "No androidIcon drawable for \"${item.getString("id")}\"")
-      tint?.let { imageTintList = ColorStateList.valueOf(it) }
+      tint?.let {
+        imageTintList = ColorStateList.valueOf(it)
+        backgroundTintList = ColorStateList.valueOf(neutralContainer(context))
+      }
       describe(this, item)
       layoutParams = FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -175,11 +181,15 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
         button.text = item.getString("title") ?: item.getString("id")
         tint?.let { button.setTextColor(it) }
       }
+      // The style gives each button its own container; on the neutral toolbar the
+      // tint stays the only color.
+      tint?.let { button.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT) }
       describe(button, item)
       row.addView(button)
     }
     return FloatingToolbarLayout(context).apply {
       addView(row)
+      tint?.let { backgroundTintList = ColorStateList.valueOf(neutralContainer(context)) }
       layoutParams = FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.WRAP_CONTENT,
         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -188,6 +198,21 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
         bottomMargin = MARGIN_DP.dpToPx().toInt()
       }
     }
+  }
+
+  /**
+   * The container under a custom tint, so the tint is the only color: a Material 3 app's
+   * own surface container, else (an AppCompat app, wrapped in Material's default theme,
+   * whose surfaces have a lavender cast) white, or dark grey in dark mode, as iOS 26's
+   * glass reads over a screen's grey background.
+   */
+  private fun neutralContainer(context: Context): Int {
+    if (context is Activity) {
+      return MaterialColors.getColor(context, MaterialR.attr.colorSurfaceContainerHigh, TAG)
+    }
+    val night = context.resources.configuration.uiMode and
+      Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    return if (night) NEUTRAL_DARK else NEUTRAL_LIGHT
   }
 
   private fun describe(view: View, item: ReadableMap) {
@@ -211,5 +236,7 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
     private const val MARGIN_DP = 16f
     // Material 3's regular FAB.
     private const val FAB_SIZE_DP = 56f
+    private const val NEUTRAL_LIGHT = 0xFFFFFFFF.toInt()
+    private const val NEUTRAL_DARK = 0xFF2C2C2E.toInt()
   }
 }

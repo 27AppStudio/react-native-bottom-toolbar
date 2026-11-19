@@ -1,9 +1,4 @@
-<h1>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/wordmark-on-dark.svg">
-    <img src="docs/images/wordmark.svg" width="568" alt="@27appstudio/react-native-bottom-toolbar">
-  </picture>
-</h1>
+<h1><img src="docs/images/banner.svg" width="100%" alt="@27appstudio/react-native-bottom-toolbar by 27AppStudio"></h1>
 
 <p>
   <a href="https://www.npmjs.com/package/@27appstudio/react-native-bottom-toolbar"><img src="https://img.shields.io/npm/v/@27appstudio/react-native-bottom-toolbar?label=npm&labelColor=0B0B0F&color=3340FF" alt="npm version"></a>
@@ -12,19 +7,23 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3340FF?labelColor=0B0B0F" alt="MIT license"></a>
 </p>
 
-The platform's own bottom toolbar for React Native screens:
+The platform's own bottom toolbar for React Native screens, drawn by UIKit and Material 3 rather than redrawn in JS:
 
 - **iOS**: UIKit's navigation-controller toolbar, so you get what the system draws. On iOS 26 that's Liquid Glass (a lone item becomes a glass circle, like the bin in Photos), and earlier versions get the classic toolbar. Your app follows each iOS redesign without changes.
 - **Android**: Material 3 components. One button shows as a FAB; two or more show as the M3 Expressive floating toolbar. Both sit above the navigation bar.
 
-|                           | iOS 26                                                                                                                                                        | iOS 18                                                                                                                                     | Android                                                                                                                        |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| Several items             | <img src="docs/images/ios26-several.png" width="220" alt="iOS 26: a glass plus button on the left, pencil and share grouped in a glass capsule on the right"> | <img src="docs/images/ios18-several.png" width="220" alt="iOS 18: plus on the left, pencil and share on the right of the classic toolbar"> | <img src="docs/images/android-several.png" width="220" alt="Android: plus, pencil and share in a Material 3 floating toolbar"> |
-| One item, red `tintColor` | <img src="docs/images/ios26-single.png" width="220" alt="iOS 26: a red bin in a glass circle">                                                                | <img src="docs/images/ios18-single.png" width="220" alt="iOS 18: a red bin at the trailing edge of the toolbar">                           | <img src="docs/images/android-single.png" width="220" alt="Android: a Material 3 FAB with a red bin icon">                     |
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png"><img src="docs/images/hero-light.png" width="720" alt="An iPhone showing a note with the iOS 26 glass toolbar, next to an Android phone showing a sunset photo with a Material 3 FAB"></picture></p>
+
+|               | iOS 26                                                                                                                                                                                                                                                                               | iOS 18                                                                                                                                                                                                                                                                           | Android                                                                                                                                                                                                                                                         |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Several items | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/ios26-editor-dark.png"><img src="docs/images/ios26-editor-light.png" width="220" alt="iOS 26: a note with a glass plus button on the left and pencil and share in a glass capsule on the right"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/ios18-editor-dark.png"><img src="docs/images/ios18-editor-light.png" width="220" alt="iOS 18: the same note with plus on the left and pencil and share on the right of the classic toolbar"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/android-editor-dark.png"><img src="docs/images/android-editor-light.png" width="220" alt="Android: plus, pencil and share in a Material 3 floating toolbar under the note"></picture> |
+| One item      | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/ios26-viewer-dark.png"><img src="docs/images/ios26-viewer-light.png" width="220" alt="iOS 26: a full-screen sunset photo with a bin in a glass circle"></picture>                                          | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/ios18-viewer-dark.png"><img src="docs/images/ios18-viewer-light.png" width="220" alt="iOS 18: the same photo with a bin at the trailing edge of the toolbar"></picture>                                | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/android-viewer-dark.png"><img src="docs/images/android-viewer-light.png" width="220" alt="Android: the same photo with a Material 3 FAB holding a bin"></picture>                     |
+
+Photos by [sun Binbin](https://unsplash.com/@leticia_sol?utm_source=27appstudio_showcase&utm_medium=referral) and [Nattu Adnan](https://unsplash.com/@reallynattu?utm_source=27appstudio_showcase&utm_medium=referral) on [Unsplash](https://unsplash.com/?utm_source=27appstudio_showcase&utm_medium=referral). Both screens pass the same `tintColor`, ink in light mode and cream in dark mode. The scenes are in [`example/src/Showcase.tsx`](example/src/Showcase.tsx), captured and framed by [`scripts/screenshots`](scripts/screenshots).
 
 It's a TurboModule with no views of its own in JS, no Expo modules, and no config plugin.
 
-Made by [27AppStudio](https://27appstudio.com) and used in production in [Splitify](https://splitify.cc).
+Used in production in [Splitify](https://splitify.cc).
 
 ## When to use something else
 
@@ -110,7 +109,7 @@ Replaces the items of any toolbar already shown.
 
 When `items` contains no space, iOS puts the buttons at the trailing edge. When it contains no button at all (`[]` or spacers only), `show` hides the toolbar, as `hide()` does, so a screen can pass an empty array while it has nothing to offer.
 
-`options.tintColor` sets the icon and title color. iOS defaults to the navigation bar's tint (matching the header buttons); Android defaults to the Material 3 theme.
+`options.tintColor` sets the icon and title color. On Android the button or toolbar then sits on a neutral container, so the tint is its only color: the theme's surface container in a Material 3 app, else white (dark grey in dark mode). iOS defaults to the navigation bar's tint (matching the header buttons); Android defaults to the Material 3 theme.
 
 ### `getHeight(): Promise<number>` and `useBottomToolbarHeight(): number`
 
@@ -157,24 +156,6 @@ Imported from `/react-navigation`. New `items` or `options` update the toolbar w
 
 MIT
 
-## Made by 27AppStudio
+## react-native-bottom-toolbar is made by 27AppStudio
 
-<p>
-  <a href="https://27appstudio.com">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/images/27appstudio-on-dark.svg">
-      <img src="docs/images/27appstudio.svg" width="180" alt="27AppStudio">
-    </picture>
-  </a>
-</p>
-
-An independent French mobile app studio. We design, build and launch iPhone and Android apps, and open-source the native pieces we make along the way, most of them for [Splitify](https://splitify.cc).
-
-| Library                                                                                   | What it does                                                           |
-| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [react-native-alert](https://github.com/27AppStudio/react-native-alert)                   | Native alerts and text prompts in your app's colors                    |
-| [react-native-bottom-toolbar](https://github.com/27AppStudio/react-native-bottom-toolbar) | The platform's own bottom toolbar: UIKit on iOS, Material 3 on Android |
-| [react-native-emoji-picker](https://github.com/27AppStudio/react-native-emoji-picker)     | A native emoji picker: iOS popover, Material 3 bottom sheet            |
-| [rn-ship](https://github.com/27AppStudio/rn-ship)                                         | EAS-style release pipeline for bare React Native apps                  |
-
-Need an app built, or a hand with a React Native one? [27appstudio.com](https://27appstudio.com)
+[27AppStudio](https://27appstudio.com) is an independent French mobile app studio. We build iPhone and Android apps, and open-source the native UI components and release tooling we make along the way. Need a hand with a React Native app? [Get in touch](https://27appstudio.com).
