@@ -42,6 +42,9 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
   /** Weak, so a destroyed activity's view is not kept; the next show replaces it. */
   private var shown: WeakReference<View>? = null
 
+  /** Where item taps go: the JS event in the app, a recorder in tests. */
+  internal var onItemPressed: (String) -> Unit = { emitOnItemPress(it) }
+
   override fun show(items: ReadableArray, options: ReadableMap) {
     val buttons = (0 until items.size())
       .mapNotNull { items.getMap(it) }
@@ -219,7 +222,7 @@ class BottomToolbarModule(reactContext: ReactApplicationContext) :
     val id = item.getString("id") ?: ""
     view.contentDescription = item.getString("accessibilityLabel")
     view.isEnabled = !(item.hasKey("disabled") && item.getBoolean("disabled"))
-    view.setOnClickListener { emitOnItemPress(id) }
+    view.setOnClickListener { onItemPressed(id) }
   }
 
   /** The `androidIcon` drawable in the app's resources, or null. */
