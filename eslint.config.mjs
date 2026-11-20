@@ -29,6 +29,6 @@ export default defineConfig([
     languageOptions: { ecmaVersion: 'latest' },
   },
   {
-    ignores: ['node_modules/', 'lib/', 'example/dist/'],
+    ignores: ['node_modules/', 'lib/', 'example/dist/', '**/build/'],
   },
 ]);
